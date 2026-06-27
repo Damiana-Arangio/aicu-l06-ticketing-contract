@@ -31,91 +31,102 @@ Serve creare ticket dal supporto.
 
 | Superficie | Cosa riguarda | Nota |
 | --- | --- | --- |
-| UI | [cosa inserisce o vede l'utente] | [nota] |
-| API / azione | [input e output attesi] | [nota] |
-| Dati | [campi conservati o generati] | [nota] |
-| Verifica | [come controlli il comportamento] | [nota] |
+| UI | Il team supporto inserisce titolo e descrizione del ticket | Non include login, ruoli o permessi |
+| API / azione | Chiamata POST per creare un nuovo ticket: il server riceve titolo e descrizione e restituisce una risposta di successo o errore | La chiamata reale sarà verificata in L07 |
+| Dati | Ticket composto da `title` e `description` inseriti dal team supporto, `id` e `createdAt` generati dal sistema | I dettagli sui dati vengono chiariti nel data sketch |
+| Verifica | Creo un ticket inserendo titolo e descrizione e controllo che compaia nell’elenco; provo anche a creare un ticket con campi vuoti e controllo che venga rifiutato | Verifica manuale minima|
+
 
 ## Action
 
 Per questo slice, `create ticket` significa:
 
 ```txt
-[scrivi una decisione minima e verificabile]
+Permettere al team supporto di inserire titolo e descrizione per creare un nuovo ticket, che deve essere registrato nel sistema di ticketing e visibile nell’elenco dopo la creazione.
 ```
 
 ## Payload Valido
 
 ```json
 {
+  "title": "Problema caricamento ticket",
+  "description": "Il team supporto segnala che l'elenco dei ticket non si carica correttamente."
 }
 ```
 
 Perche' e' valido:
-
-- [motivo 1]
-- [motivo 2]
+- contiene i campi minimi richiesti per questo slice, compilati con valori non vuoti;
+- non aggiunge campi fuori scope
 
 ## Risposta Attesa Di Successo
 
 ```txt
-[status o risultato atteso]
+201 CREATED - Ticket creato con successo
 ```
 
 Campi attesi:
 
-- [campo generato o restituito]
-- [campo confermato]
+- id generato dal sistema
+- title confermato
+- description confermata
+- createdAt generato dal sistema
 
 ## Payload Invalido 1
 
 ```json
 {
+    "title": "",
+    "description": "Il team supporto segnala che l'elenco dei ticket non si carica correttamente."
 }
 ```
 
 Motivo del rifiuto:
 
 ```txt
-[perche' e' invalido]
+Il campo title è richiesto e non può essere vuoto.
 ```
 
 Risposta attesa:
 
 ```txt
-[status o errore atteso]
+400 Bad Request - Il titolo non può essere vuoto.
 ```
 
 ## Payload Invalido 2
 
 ```json
-{
+{ 
+    "title": "Problema caricamento ticket", 
+    "description": "Il team supporto segnala che l'elenco dei ticket non si carica correttamente.", 
+    "priority": "Alta" 
 }
 ```
 
 Motivo del rifiuto:
 
 ```txt
-[perche' e' invalido]
+"priority" è un campo aggiuntivo non previsto per questo slice.
 ```
 
 Risposta attesa:
 
 ```txt
-[status o errore atteso]
+400 Bad Request - Il campo priority non è ammesso.
 ```
 
 ## Error Model Minimo
 
 | Caso | Motivo | Risposta attesa |
 | --- | --- | --- |
-| Campo richiesto mancante o vuoto | [motivo] | [errore] |
-| Valore fuori contratto | [motivo] | [errore] |
+| Campo richiesto mancante o vuoto | title o description non possono essere vuoti | 400 Bad Request con errore leggibile sul campo mancante o vuoto |
+| Valore fuori contratto | priority è un campo non ammesso dal contratto minimo | 400 Bad Request con errore leggibile sul campo priority |
 
 ## Non-Goals Confermati
 
-- [cosa resta fuori scope]
-- [cosa non chiedere all'AI]
-- [cosa rimandare]
-
-
+- Autenticazione, ruoli e permessi.
+- Redesign.
+- Refactoring generale.
+- Allegati al ticket.
+- Dashboard o gestione avanzata dei ticket.
+- Specifica API completa.
+- Database schema o migration.
