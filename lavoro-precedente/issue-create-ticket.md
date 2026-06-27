@@ -8,10 +8,9 @@ Serve creare ticket dal supporto.
 
 ## Fatti (Facts)
 - L’app di partenza è una piccola applicazione di ticketing.
-- Il ticket viene creato dal team supporto.
+- In questa issue, "team supporto" indica la persona che crea il ticket.
 
 ## Assunzioni (Assumptions)
-- "Team supporto" indica la persona che usa la sezione dedicata per creare un nuovo ticket.
 - Il team supporto può compilare un’apposita sezione con le informazioni necessarie per creare un nuovo ticket.
 - Le informazioni minime richieste sono titolo e descrizione.
 - Dopo una creazione valida, il nuovo ticket viene registrato nel sistema di ticketing e mostrato in un elenco.
@@ -36,7 +35,7 @@ Permettere al team supporto di creare un nuovo ticket tramite una sezione dedica
 
 ## Criteri Di Accettazione (Acceptance Criteria)
 1. Il team supporto può compilare titolo e descrizione e avviare la creazione di un nuovo ticket.
-2. Se titolo e descrizione sono compilati con valori non vuoti, il ticket viene creato e mostrato nell’elenco.
+2. Se titolo e descrizione sono compilati con valori non vuoti, il ticket viene creato, registrato nel sistema di ticketing e mostrato nell’elenco.
 3. Se titolo o descrizione sono vuoti, il ticket non viene creato.
 
 ## Piano Di Verifica Manuale (Manual Test Plan)
@@ -46,5 +45,4 @@ Permettere al team supporto di creare un nuovo ticket tramite una sezione dedica
 ## Note Per L06
 
 - Chiarire eventuali campi aggiuntivi oltre a titolo e descrizione.
-- Chiarire quali dati vengono inseriti dal team supporto e quali vengono generati dal sistema.
 - Chiarire quali dati vengono inseriti dal team supporto e quali vengono generati dal sistema.
