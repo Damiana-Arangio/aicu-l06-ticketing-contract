@@ -34,7 +34,7 @@ Serve creare ticket dal supporto.
 | UI | Il team supporto inserisce titolo e descrizione del ticket | Non include login, ruoli o permessi |
 | API / azione | Chiamata POST per creare un nuovo ticket: il server riceve titolo e descrizione e restituisce una risposta di successo o errore | La chiamata reale sarà verificata in L07 |
 | Dati | Ticket composto da `title` e `description` inseriti dal team supporto, `id` e `createdAt` generati dal sistema | I dettagli sui dati vengono chiariti nel data sketch |
-| Verifica | Creo un ticket inserendo titolo e descrizione e controllo che compaia nell’elenco; provo anche a creare un ticket con campi vuoti e controllo che venga rifiutato | Verifica manuale minima|
+| Verifica | Creo un ticket valido, controllo che venga creato con successo e poi verifico che compaia nell’elenco; provo anche a creare un ticket con campi vuoti e controllo che venga rifiutato | Verifica manuale minima |
 
 
 ## Action
@@ -74,22 +74,22 @@ Campi attesi:
 ## Payload Invalido 1
 
 ```json
-{
-    "title": "",
-    "description": "Il team supporto segnala che l'elenco dei ticket non si carica correttamente."
+{ 
+    "title": "", 
+    "description": "Il team supporto segnala che l'elenco dei ticket non si carica correttamente." 
 }
 ```
 
 Motivo del rifiuto:
 
 ```txt
-Il campo title è richiesto e non può essere vuoto.
+Il campo "title" è richiesto e non può essere vuoto.
 ```
 
 Risposta attesa:
 
 ```txt
-400 Bad Request - Il titolo non può essere vuoto.
+400 Bad Request - Il campo "title" non può essere vuoto.
 ```
 
 ## Payload Invalido 2
@@ -98,28 +98,28 @@ Risposta attesa:
 { 
     "title": "Problema caricamento ticket", 
     "description": "Il team supporto segnala che l'elenco dei ticket non si carica correttamente.", 
-    "priority": "Alta" 
+    "attachments": ["screenshot.png"]
 }
 ```
 
 Motivo del rifiuto:
 
 ```txt
-"priority" è un campo aggiuntivo non previsto per questo slice.
+"attachments" è un campo aggiuntivo non previsto per questo slice.
 ```
 
 Risposta attesa:
 
 ```txt
-400 Bad Request - Il campo priority non è ammesso.
+400 Bad Request - Il campo "attachments" non è ammesso.
 ```
 
 ## Error Model Minimo
 
 | Caso | Motivo | Risposta attesa |
 | --- | --- | --- |
-| Campo richiesto mancante o vuoto | title o description non possono essere vuoti | 400 Bad Request con errore leggibile sul campo mancante o vuoto |
-| Valore fuori contratto | priority è un campo non ammesso dal contratto minimo | 400 Bad Request con errore leggibile sul campo priority |
+| Campo richiesto mancante o vuoto | `title` o `description` non possono essere vuoti |  400 Bad Request con errore leggibile sul campo mancante o vuoto |
+| Valore fuori contratto | `attachments` è un campo non ammesso dal contratto minimo | 400 Bad Request con errore leggibile sul campo `attachments` |
 
 ## Non-Goals Confermati
 
