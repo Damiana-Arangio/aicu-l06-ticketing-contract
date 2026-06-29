@@ -29,15 +29,15 @@ Classificare i dati prima di chiedere codice.
 
 | Campo | Stato | Motivo | Fonte |
 | --- | --- | --- | --- |
-| `title` | accettato / respinto / generato / mancante | [perche'] | issue / contract / decisione / inferenza |
-| `description` | accettato / respinto / generato / mancante | [perche'] | issue / contract / decisione / inferenza |
-| `priority` | accettato / respinto / generato / mancante | [perche'] | issue / contract / decisione / inferenza |
-| `area` | accettato / respinto / generato / mancante | [perche'] | issue / contract / decisione / inferenza |
-| `status` | accettato / respinto / generato / mancante | [perche'] | issue / contract / decisione / inferenza |
-| `id` | accettato / respinto / generato / mancante | [perche'] | issue / contract / decisione / inferenza |
-| `attachments` | accettato / respinto / generato / mancante | [perche'] | issue / contract / decisione / inferenza |
-| `owner` | accettato / respinto / generato / mancante | [perche'] | issue / contract / decisione / inferenza |
-| `createdAt` | accettato / respinto / generato / mancante | [perche'] | issue / contract / decisione / inferenza |
+| `title` | accettato | È una delle informazioni minime richieste per creare il ticket | issue |
+| `description` | accettato | È una delle informazioni minime richieste per creare il ticket | issue |
+| `customer` | mancante | Potrebbe servire per collegare il ticket a un cliente, ma non è stato chiarito in questo slice | inferenza |
+| `priority` | mancante | Potrebbe servire per evidenziare i ticket più importanti, ma non è stata ancora presa una decisione su questo campo | inferenza |
+| `area` | mancante | Potrebbe servire per classificare i ticket, ma non è stato chiarito in questo slice | inferenza |
+| `status` | mancante | Potrebbe servire per capire lo stato del ticket, ma non è stato definito nel contratto minimo | inferenza |
+| `id` | generato | Serve a identificare il ticket creato | contract |
+| `attachments` | respinto | Gli allegati al ticket sono esplicitamente fuori scope | issue |
+| `createdAt` | generato | Serve a indicare quando il ticket viene creato | contract |
 
 ## Mermaid Leggero
 
@@ -45,27 +45,40 @@ Usa Mermaid solo per visualizzare la relazione minima. Non trasformarlo in schem
 
 ```mermaid
 erDiagram
-  SUPPORT_REQUEST ||--|| TICKET : creates
-  TICKET {
-    string id "generato"
-  }
+SUPPORT_REQUEST ||--|| TICKET : creates
+
+SUPPORT_REQUEST {
+string title
+string description
+}
+
+TICKET {
+string id
+string title
+string description
+datetime createdAt
+}
+
 ```
+## Campi mostrati nel diagramma
 
-Campi mostrati nel diagramma:
-
-- [campo] - [accettato/generato/respinto/mancante]
-- [campo] - [accettato/generato/respinto/mancante]
+- `title` - accettato
+- `description` - accettato
+- `id` - generato
+- `createdAt` - generato
 
 ## Campi Scartati O Rimandati
 
 | Campo | Decisione | Motivo |
 | --- | --- | --- |
-| [campo] | respinto / rimandato | [motivo] |
-| [campo] | respinto / rimandato | [motivo] |
-| [campo] | respinto / rimandato | [motivo] |
+| `customer` | rimandato | Potrebbe servire per collegare il ticket a un cliente, ma non è stato chiarito in questo slice |
+| `priority` | rimandato | Potrebbe servire per evidenziare i ticket più importanti, ma non è stata ancora presa una decisione su questo campo |
+| `area` | rimandato | Potrebbe servire per classificare i ticket, ma non è stato chiarito in questo slice |
+| `status` | rimandato | Potrebbe servire per capire lo stato del ticket, ma non è stato definito nel contratto minimo |
+| `attachments` | respinto | Gli allegati al ticket sono fuori scope |
 
 ## Domande Per L07
 
-- [quale file potrebbe contenere questi dati?]
-- [quale naming andra' verificato nella repo?]
-- [quale campo dipende da una decisione non presa?]
+- In quale file viene gestita la creazione dei ticket?
+- Quale naming viene usato nella repo per i campi `title`, `description`, `id` e `createdAt`?
+- I campi `customer`, `priority`, `area` o `status` devono rientrare nel primo slice oppure restano fuori?
